@@ -1,9 +1,19 @@
 {
-  "name": "core",
+  "name": "design-system",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ],
+    "nohoist": ["**/normalize-scss"]
+  },
   "devDependencies": {
     "lerna": "^6.0.3"
-  }
+  },
+  "scripts": {
+    "build": "yarn lerna run build"
+  },
+  "private": true
 }
