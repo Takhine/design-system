@@ -1,5 +1,17 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, {
+  createRef,
+  KeyboardEventHandler,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import Text from "../../atoms/Text";
+
+const KEY_CODES = {
+  ENTER: "Enter",
+  SPACE: " ",
+  DOWN_ARROW: "ArrowDown",
+};
 
 interface SelectOption {
   label: string;
@@ -23,12 +35,18 @@ const Select: React.FC<SelectProps> = ({
   label = "Please select option",
   options = [],
   onOptionSelected: handler,
-  renderOption
+  renderOption,
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const [highlightedIndex, setHighlightedIndex] = useState<number | null>(null);
 
   const labelRef = useRef<HTMLButtonElement>(null);
+
+  const [optionRefs, setOptionRefs] = useState<
+    React.RefObject<HTMLLIElement>[]
+  >([]);
+
   const [overlayTopValue, setOverlayTop] = useState<number>(0);
 
   const onLabelClick = () => setIsOpen(!isOpen);
@@ -41,21 +59,58 @@ const Select: React.FC<SelectProps> = ({
     setSelectedIndex(optionIndex);
   };
 
+  const highlightOption = (optionIndex: number | null) => {
+    setHighlightedIndex(optionIndex);
+  };
+
+  const onButtonKeyDown: KeyboardEventHandler = (event) => {
+    event.preventDefault();
+    console.log(event.key);
+
+    if (
+      [KEY_CODES.DOWN_ARROW, KEY_CODES.SPACE, KEY_CODES.ENTER].includes(
+        event.key
+      )
+    ) {
+      setIsOpen(true);
+
+      // set focus on the list item
+      highlightOption(0);
+    }
+  };
+
   useEffect(() => {
     setOverlayTop((labelRef.current?.offsetHeight || 0) + 10);
   }, [labelRef.current?.offsetHeight]);
 
-  let selectedOption = null
+  useEffect(() => {
+    setOptionRefs(options.map((_) => createRef<HTMLLIElement>()));
+  }, [options.length]);
+
+  useEffect(() => {
+    if(highlightedIndex !==null && isOpen) {
+      const ref = optionRefs[highlightedIndex];
+      if(ref && ref.current){ 
+        ref.current.focus();
+      }
+    }
+  },[isOpen])
+
+  let selectedOption = null;
 
   if (selectedIndex !== null) {
-      selectedOption = options[selectedIndex]
+    selectedOption = options[selectedIndex];
   }
   return (
     <div className="dse-select">
       <button
+        aria-aria-haspopup={true}
+        aria-controls="dse-select-list"
+        aria-expanded={isOpen ? true : undefined}
         ref={labelRef}
         className="dse-select__label"
         onClick={() => onLabelClick()}
+        onKeyDown={onButtonKeyDown}
       >
         <Text>{selectedOption === null ? label : selectedOption.label}</Text>
         <svg
@@ -76,45 +131,49 @@ const Select: React.FC<SelectProps> = ({
       </button>
 
       {isOpen ? (
-        <ul style={{ top: overlayTopValue }} className="dse-select__overlay">
+        <ul
+          role="menu"
+          id="dse-select-list"
+          style={{ top: overlayTopValue }}
+          className="dse-select__overlay"
+        >
           {options.map((option, optionIndex) => {
             const isSelected = selectedIndex === optionIndex;
 
+            const isHighlighted = highlightedIndex === optionIndex;
+
+            const ref = optionRefs[optionIndex];
+
             const renderOptionProps = {
-              // ref,
+              ref,
               option,
               isSelected,
-              getOptionRecommendedProps: (overrideProps = {}) => {return {
-                  // ref,
-                  role: 'menuitemradio',
-                  'aria-label': option.label,
-                  'aria-checked': isSelected ? true : undefined,
+              getOptionRecommendedProps: (overrideProps = {}) => {
+                return {
+                  ref,
+                  role: "menuitemradio",
+                  "aria-label": option.label,
+                  "aria-checked": isSelected ? true : undefined,
                   // onKeyDown: onOptionKeyDown,
-                  // tabIndex: isHighlighted ? -1 : 0,
-                  // onMouseEnter: () => highlightOption(optionIndex),
-                  // onMouseLeave: () => highlightOption(null),
+                  tabIndex: isHighlighted ? -1 : 0,
+                  onMouseEnter: () => highlightOption(optionIndex),
+                  onMouseLeave: () => highlightOption(null),
                   className: `dse-select__option
-                      ${isSelected ? 'dse-select__option--selected' : ''}
+                      ${isSelected ? "dse-select__option--selected" : ""}
+                      ${isHighlighted ? "dse-select__option--highlighted" : ""}
                   `,
                   key: option.value,
                   onClick: () => onOptionSelected(option, optionIndex),
-                  ...overrideProps
-              }}
-          }
+                  ...overrideProps,
+                };
+              },
+            };
 
-
-            if(renderOption) {
-              return renderOption(renderOptionProps)
+            if (renderOption) {
+              return renderOption(renderOptionProps);
             }
             return (
-              <li
-                key={option.value}
-                className={`
-                dse-select__option
-                ${isSelected ? "ds-select__option--selected" : ""}
-                `}
-                onClick={() => onOptionSelected(option, optionIndex)}
-              >
+              <li {...renderOptionProps.getOptionRecommendedProps()}>
                 <Text>{option.label}</Text>
 
                 {isSelected ? (
