@@ -12,4 +12,5 @@ const fontSizes: {
     xl: 'xl',
 }
 
+
 export default Object.freeze(fontSizes)
