@@ -2,6 +2,7 @@
   "name": "@design-system/scss",
   "version": "0.2.0",
   "main": "index.js",
+  "repository": "git://github.com/Takhine/design-system.git",
   "license": "MIT",
   "dependencies": {
     "normalize-scss": "^7.0.1"
@@ -34,5 +35,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "21aec136bfdf0114376775133d05fc5c733a9627"
+  "gitHead": "746ab17622b8406b04cb5aecff9e30690d1c871c"
 }
