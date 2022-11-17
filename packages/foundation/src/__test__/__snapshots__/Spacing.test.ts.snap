@@ -4,7 +4,7 @@ exports[`snapshop of fontsizes 1`] = `
 {
   "lg": "lg",
   "md": "md",
-  "non": "none",
+  "none": "none",
   "sm": "sm",
   "xl": "xl",
   "xs": "xs",

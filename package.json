@@ -17,7 +17,8 @@
   "scripts": {
     "build": "yarn lerna run build",
     "dev": "yarn lerna run dev",
-    "test": "yarn lerna run test"
+    "test": "yarn lerna run test",
+    "publish": "yarn build && yarn lerna publish"
   },
   "private": true
 }

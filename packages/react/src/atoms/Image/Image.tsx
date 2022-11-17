@@ -1,5 +1,5 @@
 import React from "react";
-import { Spacing } from "@takhinearin/foundation";
+import { Spacing } from "@design-system/foundation";
 
 interface ImageProps {
   src: string;
