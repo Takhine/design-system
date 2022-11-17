@@ -11,6 +11,8 @@ const KEY_CODES = {
   ENTER: "Enter",
   SPACE: " ",
   DOWN_ARROW: "ArrowDown",
+  UP_ARROW: "ArrowUp",
+  ESC: 'Escape'
 };
 
 interface SelectOption {
@@ -30,7 +32,32 @@ interface SelectProps {
   renderOption?: (props: RenderOptionProps) => React.ReactNode;
 }
 
-// <Select label onOptionSelected options={[{ label: '', value: ''}]} />
+const getPreviousOptionIndex = (currentIndex: number | null, options: Array<SelectOption>) => {
+  if(currentIndex === null) {
+    return 0;
+  }
+
+  // First item in the list
+  if(currentIndex === 0) {
+    return options.length-1;
+  }
+
+  return currentIndex - 1;
+}
+
+const getNextOptionIndex = (currentIndex: number | null, options: Array<SelectOption>) => {
+  if(currentIndex === null) {
+    return 0;
+  }
+
+  // Last item in the list
+  if(currentIndex === options.length-1) {
+    return 0;
+  }
+
+  return currentIndex + 1;
+}
+
 const Select: React.FC<SelectProps> = ({
   label = "Please select option",
   options = [],
@@ -94,7 +121,28 @@ const Select: React.FC<SelectProps> = ({
         ref.current.focus();
       }
     }
-  },[isOpen])
+  },[isOpen, highlightedIndex])
+
+  const onOptionKeyDown: KeyboardEventHandler = (event) => {
+    // Close if ESC
+    if(event.key === KEY_CODES.ESC) {
+      setIsOpen(false);
+      return;
+    }
+
+    // Next item if ArrowDown
+    if(event.key === KEY_CODES.DOWN_ARROW) {
+      highlightOption(getNextOptionIndex(highlightedIndex, options))
+    }
+    if(event.key === KEY_CODES.UP_ARROW) {
+      highlightOption(getPreviousOptionIndex(highlightedIndex, options))
+    }
+
+    if(event.key === KEY_CODES.ENTER) {
+      onOptionSelected(options[highlightedIndex!], highlightedIndex!)
+    }
+    
+  }
 
   let selectedOption = null;
 
@@ -154,7 +202,7 @@ const Select: React.FC<SelectProps> = ({
                   role: "menuitemradio",
                   "aria-label": option.label,
                   "aria-checked": isSelected ? true : undefined,
-                  // onKeyDown: onOptionKeyDown,
+                  onKeyDown: onOptionKeyDown,
                   tabIndex: isHighlighted ? -1 : 0,
                   onMouseEnter: () => highlightOption(optionIndex),
                   onMouseLeave: () => highlightOption(null),
