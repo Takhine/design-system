@@ -1,20 +1,31 @@
 import React from "react";
-import ReactDom from "react-dom";
+import { createRoot } from "react-dom/client";
 
-import { Text, Margin } from "@design-system/react";
+import { Select } from "@design-system/react";
 
 import "@design-system/scss/lib/Utilities.css";
 import "@design-system/scss/lib/Text.css";
 import "@design-system/scss/lib/Margin.css";
 import "@design-system/scss/lib/global.css";
 
-import { FontSize } from "@design-system/foundation";
+const container = document.getElementById("root");
 
-ReactDom.render(
+const root = createRoot(container!); // createRoot(container!) if you use TypeScript
+
+const options = [{
+  label: 'Strict Black',
+  value: 'strict-black'
+}, {
+  label: 'Heavenly Green',
+  value: 'heavenly-green'
+}, {
+  label: 'Sweet Pink',
+  value: 'pink'
+}]
+
+
+root.render(
   <div>
-    <Margin>
-      <Text size={FontSize.base}>This is some text</Text>
-    </Margin>
-  </div>,
-  document.querySelector("#root")
+    <Select options={options} />
+  </div>
 );
