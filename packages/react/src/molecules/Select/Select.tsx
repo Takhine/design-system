@@ -23,6 +23,7 @@ const Select: React.FC<SelectProps> = ({
   label = "Please select option",
   options = [],
   onOptionSelected: handler,
+  renderOption
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
@@ -78,6 +79,33 @@ const Select: React.FC<SelectProps> = ({
         <ul style={{ top: overlayTopValue }} className="dse-select__overlay">
           {options.map((option, optionIndex) => {
             const isSelected = selectedIndex === optionIndex;
+
+            const renderOptionProps = {
+              // ref,
+              option,
+              isSelected,
+              getOptionRecommendedProps: (overrideProps = {}) => {return {
+                  // ref,
+                  role: 'menuitemradio',
+                  'aria-label': option.label,
+                  'aria-checked': isSelected ? true : undefined,
+                  // onKeyDown: onOptionKeyDown,
+                  // tabIndex: isHighlighted ? -1 : 0,
+                  // onMouseEnter: () => highlightOption(optionIndex),
+                  // onMouseLeave: () => highlightOption(null),
+                  className: `dse-select__option
+                      ${isSelected ? 'dse-select__option--selected' : ''}
+                  `,
+                  key: option.value,
+                  onClick: () => onOptionSelected(option, optionIndex),
+                  ...overrideProps
+              }}
+          }
+
+
+            if(renderOption) {
+              return renderOption(renderOptionProps)
+            }
             return (
               <li
                 key={option.value}
