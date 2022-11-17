@@ -12,7 +12,7 @@ const KEY_CODES = {
   SPACE: " ",
   DOWN_ARROW: "ArrowDown",
   UP_ARROW: "ArrowUp",
-  ESC: 'Escape'
+  ESC: "Escape",
 };
 
 interface SelectOption {
@@ -32,31 +32,37 @@ interface SelectProps {
   renderOption?: (props: RenderOptionProps) => React.ReactNode;
 }
 
-const getPreviousOptionIndex = (currentIndex: number | null, options: Array<SelectOption>) => {
-  if(currentIndex === null) {
+const getPreviousOptionIndex = (
+  currentIndex: number | null,
+  options: Array<SelectOption>
+) => {
+  if (currentIndex === null) {
     return 0;
   }
 
   // First item in the list
-  if(currentIndex === 0) {
-    return options.length-1;
+  if (currentIndex === 0) {
+    return options.length - 1;
   }
 
   return currentIndex - 1;
-}
+};
 
-const getNextOptionIndex = (currentIndex: number | null, options: Array<SelectOption>) => {
-  if(currentIndex === null) {
+const getNextOptionIndex = (
+  currentIndex: number | null,
+  options: Array<SelectOption>
+) => {
+  if (currentIndex === null) {
     return 0;
   }
 
   // Last item in the list
-  if(currentIndex === options.length-1) {
+  if (currentIndex === options.length - 1) {
     return 0;
   }
 
   return currentIndex + 1;
-}
+};
 
 const Select: React.FC<SelectProps> = ({
   label = "Please select option",
@@ -115,34 +121,33 @@ const Select: React.FC<SelectProps> = ({
   }, [options.length]);
 
   useEffect(() => {
-    if(highlightedIndex !==null && isOpen) {
+    if (highlightedIndex !== null && isOpen) {
       const ref = optionRefs[highlightedIndex];
-      if(ref && ref.current){ 
+      if (ref && ref.current) {
         ref.current.focus();
       }
     }
-  },[isOpen, highlightedIndex])
+  }, [isOpen, highlightedIndex]);
 
   const onOptionKeyDown: KeyboardEventHandler = (event) => {
     // Close if ESC
-    if(event.key === KEY_CODES.ESC) {
+    if (event.key === KEY_CODES.ESC) {
       setIsOpen(false);
       return;
     }
 
     // Next item if ArrowDown
-    if(event.key === KEY_CODES.DOWN_ARROW) {
-      highlightOption(getNextOptionIndex(highlightedIndex, options))
+    if (event.key === KEY_CODES.DOWN_ARROW) {
+      highlightOption(getNextOptionIndex(highlightedIndex, options));
     }
-    if(event.key === KEY_CODES.UP_ARROW) {
-      highlightOption(getPreviousOptionIndex(highlightedIndex, options))
+    if (event.key === KEY_CODES.UP_ARROW) {
+      highlightOption(getPreviousOptionIndex(highlightedIndex, options));
     }
 
-    if(event.key === KEY_CODES.ENTER) {
-      onOptionSelected(options[highlightedIndex!], highlightedIndex!)
+    if (event.key === KEY_CODES.ENTER) {
+      onOptionSelected(options[highlightedIndex!], highlightedIndex!);
     }
-    
-  }
+  };
 
   let selectedOption = null;
 
@@ -152,6 +157,7 @@ const Select: React.FC<SelectProps> = ({
   return (
     <div className="dse-select">
       <button
+        data-testId="DseSelectButton"
         aria-aria-haspopup={true}
         aria-controls="dse-select-list"
         aria-expanded={isOpen ? true : undefined}
