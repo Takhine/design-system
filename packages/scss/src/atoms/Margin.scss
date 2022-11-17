@@ -1,0 +1,29 @@
+@import 'foundation/all';
+
+$sides: left, right, top, bottom;
+
+$axes: x, y;
+
+@each $space, $value in $spacing {
+    .dse-margin-#{$space} {
+        margin: $value;
+    }
+
+    @each $side in $sides {
+        .dse-margin-#{$side}-#{$space} {
+            margin-#{$side}: $value;
+        }
+    }
+
+    @each $axis in $axes {
+        .dse-margin-#{$axis}-#{$space} {
+            @if $axis == y {
+                margin-top: $value;
+                margin-bottom: $value;  
+            } @else {
+                margin-left: $value;
+                margin-right: $value;
+            }
+        }
+    }
+}
