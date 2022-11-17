@@ -65,3 +65,10 @@
         color: $form-color-option-selected;
     }
 }
+
+
+.dse-select__overlay {
+    &--open {
+        display: block;
+    }
+}
