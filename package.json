@@ -12,13 +12,21 @@
     "nohoist": ["**/normalize-scss"]
   },
   "devDependencies": {
+    "commitizen": "^4.2.5",
+    "cz-conventional-changelog": "^3.3.0",
     "lerna": "^6.0.3"
   },
   "scripts": {
     "build": "yarn lerna run build",
     "dev": "yarn lerna run dev",
     "test": "yarn lerna run test",
-    "publish": "yarn build && yarn lerna publish"
+    "publish": "yarn build && yarn lerna publish",
+    "commit": "yarn git-cz"
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
   },
   "private": true
 }
