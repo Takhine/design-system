@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 interface SelectOption {
   label: string;
@@ -24,6 +24,9 @@ const Select: React.FC<SelectProps> = ({
   onOptionSelected: handler,
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const labelRef = useRef<HTMLButtonElement>(null)
+  const [overlayTopValue, setOverlayTop] = useState<number>(0);
+
 
   const onLabelClick = () => setIsOpen(!isOpen);
 
@@ -33,9 +36,15 @@ const Select: React.FC<SelectProps> = ({
       handler(option, optionIndex);
     }
   };
+
+  useEffect(() => {
+
+    setOverlayTop((labelRef.current?.offsetHeight || 0) + 10)
+
+  },[labelRef.current?.offsetHeight])
   return (
     <div className="dse-select">
-      <button className="dse-select__label" onClick={() => onLabelClick()}>
+      <button ref={labelRef} className="dse-select__label" onClick={() => onLabelClick()}>
         <span>{label}</span>
         <svg
           className={`dse-select__caret ${
@@ -55,7 +64,7 @@ const Select: React.FC<SelectProps> = ({
       </button>
 
       {isOpen ? (
-        <ul className="dse-select__overlay">
+        <ul style={{top: overlayTopValue}} className="dse-select__overlay">
           {options.map((option, optionIndex) => {
             return (
               <li
