@@ -14,5 +14,5 @@ export default {
     sourcemap: true,
   },
   plugins: [Ts()],
-  external: ["react", "@design-system/foundation"],
+  external: ["react", "@takhinearin/foundation"],
 };

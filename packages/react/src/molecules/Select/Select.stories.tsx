@@ -2,7 +2,7 @@ import React from "react";
 import Select from "./Select";
 
 // css
-import "@design-system/scss/lib/Select.css";
+import "@takhinearin/scss/lib/Select.css";
 
 const options = [
   {

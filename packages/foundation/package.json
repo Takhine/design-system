@@ -1,5 +1,5 @@
 {
-  "name": "@design-system/foundation",
+  "name": "@takhinearin/foundation",
   "version": "0.2.1",
   "main": "lib/index.js",
   "repository": "git://github.com/Takhine/design-system.git",
@@ -19,5 +19,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "746ab17622b8406b04cb5aecff9e30690d1c871c"
+  "gitHead": "38e132ac867014e21e008de1fa493619d0c7729a"
 }
