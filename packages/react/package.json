@@ -8,7 +8,8 @@
     "react": "^18.2.0"
   },
   "scripts": {
-    "build":"rollup -c"
+    "build":"rollup -c",
+    "dev": "yarn build --watch"
   },
   "devDependencies": {
     "@types/react": "^18.0.25",
