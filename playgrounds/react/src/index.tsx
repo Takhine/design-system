@@ -27,7 +27,7 @@ const options = [{
 
 
 root.render(
-  <div>
+  <div style={{padding: '40px'}}>
     <Select options={options} />
   </div>
 );
