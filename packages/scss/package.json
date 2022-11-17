@@ -4,6 +4,10 @@
   "main": "index.js",
   "repository": "git://github.com/Takhine/design-system.git",
   "license": "MIT",
+  "files": [
+    "lib",
+    "src"
+  ],
   "dependencies": {
     "normalize-scss": "^7.0.1"
   },

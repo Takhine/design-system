@@ -4,6 +4,9 @@
   "main": "lib/index.js",
   "repository": "git://github.com/Takhine/design-system.git",
   "license": "MIT",
+  "files": [
+    "lib"
+  ],
   "devDependencies": {
     "@babel/preset-env": "^7.20.2",
     "@babel/preset-typescript": "^7.18.6",
