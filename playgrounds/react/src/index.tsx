@@ -16,10 +16,10 @@ const root = createRoot(container!); // createRoot(container!) if you use TypeSc
 
 const options = [{
   label: 'Strict Black',
-  value: 'strict-black'
+  value: 'black'
 }, {
   label: 'Heavenly Green',
-  value: 'heavenly-green'
+  value: 'green'
 }, {
   label: 'Sweet Pink',
   value: 'pink'
