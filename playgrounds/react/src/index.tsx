@@ -6,7 +6,9 @@ import { Select } from "@design-system/react";
 import "@design-system/scss/lib/Utilities.css";
 import "@design-system/scss/lib/Text.css";
 import "@design-system/scss/lib/Margin.css";
+import "@design-system/scss/lib/Select.css";
 import "@design-system/scss/lib/global.css";
+
 
 const container = document.getElementById("root");
 
