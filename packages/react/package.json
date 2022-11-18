@@ -23,6 +23,7 @@
     "@babel/preset-env": "^7.20.2",
     "@babel/preset-react": "^7.18.6",
     "@babel/preset-typescript": "^7.18.6",
+    "@takhinearin/foundation": "^0.1.0",
     "@storybook/addon-a11y": "^6.5.13",
     "@storybook/addon-knobs": "^6.4.0",
     "@storybook/addon-storysource": "^6.5.13",
