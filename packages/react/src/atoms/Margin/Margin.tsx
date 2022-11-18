@@ -1,4 +1,4 @@
-import { Spacing } from "@design-system/foundation";
+import { Spacing } from "@takhinearin/foundation";
 import React from "react";
 
 interface MarginProps {
